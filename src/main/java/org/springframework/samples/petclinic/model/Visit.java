@@ -15,46 +15,38 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import raft.postvayler.Clock;
+import raft.postvayler.Persist;
+import raft.postvayler.Persistent;
 
 /**
  * Simple JavaBean domain object representing a visit.
  *
  * @author Ken Krebs
+ * @author Hakan Eryargi (r a f t)
  */
-@Entity
-@Table(name = "visits")
+@Persistent
 public class Visit extends BaseEntity {
+	
+	private static final long serialVersionUID = 1L;
 
     /**
      * Holds value of property date.
      */
-    @Column(name = "visit_date")
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate date;
 
     /**
      * Holds value of property description.
      */
     @NotEmpty
-    @Column(name = "description")
     private String description;
 
     /**
      * Holds value of property pet.
      */
-    @ManyToOne
-    @JoinColumn(name = "pet_id")
     private Pet pet;
 
 
@@ -62,7 +54,7 @@ public class Visit extends BaseEntity {
      * Creates a new instance of Visit for the current date
      */
     public Visit() {
-        this.date = new LocalDate();
+        this.date = new LocalDate(Clock.now());
     }
 
 
@@ -80,6 +72,7 @@ public class Visit extends BaseEntity {
      *
      * @param date New value of property date.
      */
+    @Persist
     public void setDate(LocalDate date) {
         this.date = date;
     }
@@ -98,6 +91,7 @@ public class Visit extends BaseEntity {
      *
      * @param description New value of property description.
      */
+    @Persist
     public void setDescription(String description) {
         this.description = description;
     }
@@ -116,6 +110,7 @@ public class Visit extends BaseEntity {
      *
      * @param pet New value of property pet.
      */
+    @Persist
     public void setPet(Pet pet) {
         this.pet = pet;
     }

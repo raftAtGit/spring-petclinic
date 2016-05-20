@@ -15,15 +15,17 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import raft.postvayler.Persistent;
 
 /**
+ * Can be Cat, Dog, Hamster...
+ * 
  * @author Juergen Hoeller
- *         Can be Cat, Dog, Hamster...
+ * @author Hakan Eryargi (r a f t)
  */
-@Entity
-@Table(name = "types")
+@Persistent
 public class PetType extends NamedEntity {
+	
+	private static final long serialVersionUID = 1L;
 
 }

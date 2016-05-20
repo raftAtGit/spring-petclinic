@@ -15,27 +15,31 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
+
+import raft.postvayler.Persist;
+import raft.postvayler.Persistent;
 
 /**
  * Simple JavaBean domain object with an id property. Used as a base class for objects needing this property.
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
+ * @author Hakan Eryargi (r a f t)
+ * 
  */
-@MappedSuperclass
-public class BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+@Persistent
+public class BaseEntity implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+    private Integer id;
 
     public Integer getId() {
         return id;
     }
 
+    @Persist
     public void setId(Integer id) {
         this.id = id;
     }
@@ -44,4 +48,11 @@ public class BaseEntity {
         return this.id == null;
     }
 
+//    @Override
+//    public boolean equals(Object obj) {
+//    	if (obj == this)
+//    		return true;
+//    	
+//    	return getClass().equals(obj.getClass()) && 
+//    }
 }

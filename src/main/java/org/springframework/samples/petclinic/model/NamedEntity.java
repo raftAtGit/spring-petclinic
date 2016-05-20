@@ -15,8 +15,8 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import raft.postvayler.Persist;
+import raft.postvayler.Persistent;
 
 
 /**
@@ -25,17 +25,20 @@ import javax.persistence.MappedSuperclass;
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
+ * @author Hakan Eryargi (r a f t)
  */
-@MappedSuperclass
+@Persistent
 public class NamedEntity extends BaseEntity {
+	
+	private static final long serialVersionUID = 1L;
 
-    @Column(name = "name")
     private String name;
 
     public String getName() {
         return this.name;
     }
 
+    @Persist
     public void setName(String name) {
         this.name = name;
     }

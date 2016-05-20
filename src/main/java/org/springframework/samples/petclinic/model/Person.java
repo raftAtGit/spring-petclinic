@@ -15,24 +15,25 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-
 import org.hibernate.validator.constraints.NotEmpty;
+
+import raft.postvayler.Persist;
+import raft.postvayler.Persistent;
 
 /**
  * Simple JavaBean domain object representing an person.
  *
  * @author Ken Krebs
+ * @author Hakan Eryargi (r a f t)
  */
-@MappedSuperclass
+@Persistent
 public class Person extends BaseEntity {
+	
+	private static final long serialVersionUID = 1L;
 
-    @Column(name = "first_name")
     @NotEmpty
     protected String firstName;
 
-    @Column(name = "last_name")
     @NotEmpty
     protected String lastName;
 
@@ -40,6 +41,7 @@ public class Person extends BaseEntity {
         return this.firstName;
     }
 
+    @Persist
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -48,6 +50,7 @@ public class Person extends BaseEntity {
         return this.lastName;
     }
 
+    @Persist
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }

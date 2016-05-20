@@ -15,16 +15,17 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import raft.postvayler.Persistent;
 
 /**
  * Models a {@link Vet Vet's} specialty (for example, dentistry).
  *
  * @author Juergen Hoeller
+ * @author Hakan Eryargi (r a f t)
  */
-@Entity
-@Table(name = "specialties")
+@Persistent
 public class Specialty extends NamedEntity {
+	
+	private static final long serialVersionUID = 1L;
 
 }

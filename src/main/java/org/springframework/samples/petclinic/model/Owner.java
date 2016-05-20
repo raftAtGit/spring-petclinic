@@ -17,21 +17,19 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
+
+import raft.postvayler.Persist;
+import raft.postvayler.Persistent;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -40,31 +38,30 @@ import org.springframework.core.style.ToStringCreator;
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @author Michael Isvy
+ * @author Hakan Eryargi (r a f t)
  */
-@Entity
-@Table(name = "owners")
+@Persistent
 public class Owner extends Person {
-    @Column(name = "address")
+	
+	private static final long serialVersionUID = 1L;
+	
     @NotEmpty
     private String address;
 
-    @Column(name = "city")
     @NotEmpty
     private String city;
 
-    @Column(name = "telephone")
     @NotEmpty
     @Digits(fraction = 0, integer = 10)
     private String telephone;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Set<Pet> pets;
-
+    private final Set<Pet> pets = new LinkedHashSet<>();
 
     public String getAddress() {
         return this.address;
     }
 
+    @Persist
     public void setAddress(String address) {
         this.address = address;
     }
@@ -73,6 +70,7 @@ public class Owner extends Person {
         return this.city;
     }
 
+    @Persist
     public void setCity(String city) {
         this.city = city;
     }
@@ -81,29 +79,20 @@ public class Owner extends Person {
         return this.telephone;
     }
 
+    @Persist
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
-    protected Set<Pet> getPetsInternal() {
-        if (this.pets == null) {
-            this.pets = new HashSet<>();
-        }
-        return this.pets;
-    }
-
-    protected void setPetsInternal(Set<Pet> pets) {
-        this.pets = pets;
-    }
-
     public List<Pet> getPets() {
-        List<Pet> sortedPets = new ArrayList<>(getPetsInternal());
+        List<Pet> sortedPets = new ArrayList<>(pets);
         PropertyComparator.sort(sortedPets, new MutableSortDefinition("name", true, true));
         return Collections.unmodifiableList(sortedPets);
     }
 
+    @Persist
     public void addPet(Pet pet) {
-        getPetsInternal().add(pet);
+        pets.add(pet);
         pet.setOwner(this);
     }
 
@@ -125,7 +114,7 @@ public class Owner extends Person {
      */
     public Pet getPet(String name, boolean ignoreNew) {
         name = name.toLowerCase();
-        for (Pet pet : getPetsInternal()) {
+        for (Pet pet : pets) {
             if (!ignoreNew || !pet.isNew()) {
                 String compName = pet.getName();
                 compName = compName.toLowerCase();
