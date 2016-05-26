@@ -57,7 +57,11 @@ public class Owner extends Person {
 
     private final Set<Pet> pets = new LinkedHashSet<>();
 
-    public String getAddress() {
+	public Owner() {
+		super();
+	}
+
+	public String getAddress() {
         return this.address;
     }
 

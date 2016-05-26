@@ -17,6 +17,7 @@ package org.springframework.samples.petclinic.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import raft.postvayler.Clock;
 import raft.postvayler.Persist;
@@ -36,6 +37,7 @@ public class Visit extends BaseEntity {
     /**
      * Holds value of property date.
      */
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate date;
 
     /**

@@ -28,13 +28,20 @@ import raft.postvayler.Persistent;
  * @author Hakan Eryargi (r a f t)
  */
 @Persistent
-public class NamedEntity extends BaseEntity {
+public abstract class NamedEntity extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
     private String name;
 
-    public String getName() {
+    protected NamedEntity() {
+    }
+    
+    protected NamedEntity(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
         return this.name;
     }
 

@@ -18,7 +18,7 @@ public interface AutoIdMap<V extends BaseEntity> extends Map<Integer, V> {
 	/** Assigns an id to value and puts into map */
 	public void put(V value);
 	
-	@Persistent
+	//@Persistent
 	public static class Impl<V extends BaseEntity> extends LinkedHashMap<Integer, V> implements AutoIdMap<V>  {
 		private static final long serialVersionUID = 1L;
 
@@ -28,8 +28,9 @@ public interface AutoIdMap<V extends BaseEntity> extends Map<Integer, V> {
 		@Override
 		public void put(V value) {
 			synchronized (this) {
-				int id = lastId++;
+				int id = ++lastId;
 				value.setId(id);
+				super.put(id, value);
 			}
 		}
 		

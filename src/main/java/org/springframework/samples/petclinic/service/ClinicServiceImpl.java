@@ -18,6 +18,8 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
@@ -49,6 +51,14 @@ public class ClinicServiceImpl implements ClinicService {
 	@Autowired
 	private Mapper mapper;
 	
+	@PostConstruct
+	void init() {
+		if (!petClinic.isPopulated())
+			petClinic.populate();
+		// TODO make mapper @Autowired in PetClinic
+		petClinic.setMapper(mapper);
+	}
+	
     @Override
     public Collection<PetType> findPetTypes() {
         return petClinic.getPetTypes().values();
@@ -62,23 +72,19 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     public Collection<Owner> findOwnerByLastName(String lastName) {
     	return petClinic.getOwners().values().stream()
-    			.filter(x -> lastName.equalsIgnoreCase(x.getLastName()))
+    			.filter(x -> x.getLastName().toUpperCase().startsWith(lastName.toUpperCase()))
 				.collect(Collectors.toList());
     }
 
     @Override
     public void saveOwner(Owner owner) {
-    	if (owner.isNew()) {
-    		petClinic.getOwners().put(owner);
-    	} else {
-    		mapper.map(owner, petClinic.getOwners().get(owner.getId()));
-    	}
+    	petClinic.saveOwner(owner);
     }
 
 
     @Override
     public void saveVisit(Visit visit) {
-        visitRepository.save(visit);
+    	petClinic.saveVisit(visit);
     }
 
 
@@ -89,7 +95,7 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     public void savePet(Pet pet) {
-        petRepository.save(pet);
+    	petClinic.savePet(pet);
     }
 
     @Override

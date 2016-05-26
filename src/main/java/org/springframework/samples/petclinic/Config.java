@@ -14,4 +14,5 @@ public class Config {
 	public Mapper mapper() {
 		return new Mapper();
 	}
+
 }

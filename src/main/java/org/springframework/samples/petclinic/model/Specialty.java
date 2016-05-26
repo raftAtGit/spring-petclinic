@@ -28,4 +28,13 @@ public class Specialty extends NamedEntity {
 	
 	private static final long serialVersionUID = 1L;
 
+	public Specialty() {
+		super();
+	}
+
+	public Specialty(String name) {
+		super(name);
+	}
+
+	
 }

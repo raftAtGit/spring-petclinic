@@ -68,7 +68,8 @@ public class VisitController {
     public Visit loadPetWithVisit(@PathVariable("petId") int petId) {
         Pet pet = this.clinicService.findPetById(petId);
         Visit visit = new Visit();
-        pet.addVisit(visit);
+        //pet.addVisit(visit);
+        visit.setPet(pet);
         return visit;
     }
 

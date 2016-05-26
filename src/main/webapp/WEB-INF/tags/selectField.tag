@@ -5,7 +5,7 @@
               description="Name of corresponding property in bean object" %>
 <%@ attribute name="label" required="true" rtexprvalue="true"
               description="Label appears in red color if input is considered as invalid after submission" %>
-<%@ attribute name="names" required="true" rtexprvalue="true" type="java.util.List"
+<%@ attribute name="names" required="true" rtexprvalue="true" type="java.util.Collection"
               description="Names in the list" %>
 <%@ attribute name="size" required="true" rtexprvalue="true"
               description="Size of Select" %>

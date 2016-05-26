@@ -71,7 +71,7 @@ public class PetController {
     @RequestMapping(value = "/pets/new", method = RequestMethod.GET)
     public String initCreationForm(Owner owner, ModelMap model) {
         Pet pet = new Pet();
-        owner.addPet(pet);
+        //owner.addPet(pet);
         model.put("pet", pet);
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
     }
@@ -104,7 +104,7 @@ public class PetController {
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         } else {
-            owner.addPet(pet);
+            //owner.addPet(pet);
             this.clinicService.savePet(pet);
             return "redirect:/owners/{ownerId}";
         }

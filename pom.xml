@@ -58,6 +58,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>raft.postvayler</groupId>
+            <artifactId>Postvayler</artifactId>
+            <version>0.1-SNAPHOT</version>
+        </dependency>
+    
+        <dependency>
             <groupId>org.jadira.usertype</groupId>
             <artifactId>usertype.core</artifactId>
             <version>${jadira-usertype-core.version}</version>
@@ -182,18 +188,37 @@
             <version>${jodatime-jsptags.version}</version>
         </dependency>
 
+        <!-- HIBERNATE -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
 		<!-- object mapping -->
 		<dependency>
 		    <groupId>ma.glasnost.orika</groupId>
 		    <artifactId>orika-core</artifactId>
 		    <version>1.4.6</version>
 		</dependency>
-
-        <!-- HIBERNATE -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
 
         <!-- Test Artifacts -->
         <dependency>
@@ -288,9 +313,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>
-                <configuration>
-                    <warName>petclinic</warName>
-                </configuration>
+<!--                 <configuration> -->
+<!--                     <warName>petclinic</warName> -->
+<!--                 </configuration> -->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -329,16 +354,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <server>tomcat-development-server</server>
-                    <port>9966</port>
-                    <path>/petclinic</path>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
                 <version>${cobertura.version}</version>
@@ -353,6 +368,19 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+        	<plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.4.8</version>
+                <configuration>
+                    <container>
+                        <containerId>tomcat8x</containerId>
+						<zipUrlInstaller>
+							<url>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.0/tomcat-8.5.0.zip</url>
+						</zipUrlInstaller>
+                    </container>
+                </configuration>
             </plugin>
         </plugins>
     </build>

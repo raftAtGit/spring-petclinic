@@ -17,13 +17,13 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.util.AutoIdMap;
 
 import raft.postvayler.Persist;
 import raft.postvayler.Persistent;
@@ -41,13 +41,14 @@ public class Pet extends NamedEntity {
 	
 	private static final long serialVersionUID = 1L;
 
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate birthDate;
 
     private PetType type;
 
     private Owner owner;
 
-    private final Set<Visit> visits = new LinkedHashSet<>();
+    private final AutoIdMap<Visit> visits = new AutoIdMap.Impl<>();
 
     public LocalDate getBirthDate() {
         return this.birthDate;
@@ -77,14 +78,14 @@ public class Pet extends NamedEntity {
     }
 
     public List<Visit> getVisits() {
-        List<Visit> sortedVisits = new ArrayList<>(visits);
+        List<Visit> sortedVisits = new ArrayList<>(visits.values());
         PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
         return Collections.unmodifiableList(sortedVisits);
     }
 
     @Persist
     public void addVisit(Visit visit) {
-    	visits.add(visit);
+    	visits.put(visit);
         visit.setPet(this);
     }
 

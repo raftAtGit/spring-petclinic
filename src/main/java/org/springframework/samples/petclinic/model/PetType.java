@@ -28,4 +28,13 @@ public class PetType extends NamedEntity {
 	
 	private static final long serialVersionUID = 1L;
 
+	public PetType() {
+		super();
+	}
+
+	public PetType(String name) {
+		super(name);
+	}
+
+	
 }
